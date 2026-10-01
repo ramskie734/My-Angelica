@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   My Angelica theme: soft pink primary, lavender secondary, white background.
+--------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 300 25% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 300 25% 12%;
+    --primary: 335 81% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 255 70% 78%;
+    --secondary-foreground: 255 45% 30%;
+    --muted: 330 45% 96%;
+    --muted-foreground: 300 12% 45%;
+    --accent: 255 70% 95%;
+    --accent-foreground: 335 81% 40%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 330 30% 91%;
+    --input: 330 30% 88%;
+    --ring: 335 81% 57%;
+    --radius: 0.9rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* 3D flip helpers used by the flashcard component. */
+.perspective-1200 {
+  perspective: 1200px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Soft, cute scrollbars. */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--secondary) / 0.5);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--secondary));
+}
+
+/* Hide horizontal scrollbar on the subject carousel but keep it scrollable. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
