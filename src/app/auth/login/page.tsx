@@ -13,7 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/lib/supabase/client";
 import { LS_REMEMBER_KEY } from "@/constants";
 
-/** Email + Google sign in with Remember Me and forgot password. */
+/** Email sign in with Remember Me and forgot password. */
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -50,14 +50,6 @@ export default function LoginPage() {
     }
   };
 
-  const signInWithGoogle = async () => {
-    const redirectTo = `${window.location.origin}/auth/callback`;
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo }
-    });
-    if (error) toast.error(error.message);
-  };
 
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
@@ -104,21 +96,6 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="flex items-center gap-3">
-            <span className="h-px flex-1 bg-border" />
-            <span className="text-xs text-muted-foreground">or</span>
-            <span className="h-px flex-1 bg-border" />
-          </div>
-
-          <Button variant="outline" className="w-full" onClick={signInWithGoogle}>
-            <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.91a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/>
-              <path fill="#EA4335" d="M12 1c3.24 0 6.13 1.12 8.41 3.3l-3.16 3.16A6.6 6.6 0 0 0 12 4.7c-2.86 0-5.29 1.93-6.16 4.53H2.18A11 11 0 0 1 12 1z"/>
-            </svg>
-            Continue with Google
-          </Button>
 
           <p className="text-center text-sm text-muted-foreground">
             New here?{" "}
