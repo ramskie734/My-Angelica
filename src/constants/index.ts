@@ -1,4 +1,4 @@
-import { BookOpen, Heart, Home, Search, BarChart3, Settings } from "lucide-react";
+import { BookOpen, BookPlus, Heart, Home, Search, BarChart3, Settings } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 /** Primary navigation shared by the header and the mobile bottom bar. */
@@ -13,7 +13,8 @@ export const MAIN_NAV: NavItem[] = [
   { label: "Subjects", href: "/subjects", icon: BookOpen },
   { label: "Favorites", href: "/favorites", icon: Heart },
   { label: "Progress", href: "/progress", icon: BarChart3 },
-  { label: "Search", href: "/search", icon: Search }
+  { label: "Search", href: "/search", icon: Search },
+  { label: "Create", href: "/admin", icon: BookPlus }
 ];
 
 export const SETTINGS_NAV: NavItem = { label: "Settings", href: "/settings", icon: Settings };

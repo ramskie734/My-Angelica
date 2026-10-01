@@ -10,51 +10,51 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AdminForms, AdminUsersTable } from "@/components/admin/forms";
 
 /**
- * Admin panel: create subjects / units / lessons / topics (with image upload),
- * manage flashcards and quiz questions, and view users with their progress.
- * Access is additionally enforced by database row-level security.
+ * Content creation area. Every signed-in user can create their own subjects,
+ * units, lessons, topics, flashcards and quiz questions. The Overview and
+ * Users tabs remain admin-only. Database policies additionally enforce that
+ * users can only modify content they created themselves.
  */
 export default function AdminPage() {
   const { isAdmin, refresh } = useAppData();
-
-  if (!isAdmin) {
-    return (
-      <Card className="mx-auto max-w-lg">
-        <CardContent className="p-8 text-center">
-          <p className="font-semibold">Admins only</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Ask your administrator to grant your account the admin role.
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Admin Panel</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Create and manage all study content.</p>
+          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+            {isAdmin ? "Admin Panel" : "Create Content"}
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Build your own subjects, flashcards and quizzes — exactly the way you study.
+          </p>
         </div>
-        <Badge variant="soft">Admin</Badge>
+        <Badge variant="soft">{isAdmin ? "Admin" : "Creator"}</Badge>
       </div>
 
       <Tabs defaultValue="content" className="w-full">
         <TabsList>
           <TabsTrigger value="content"><FolderTree className="h-4 w-4" /> Content</TabsTrigger>
-          <TabsTrigger value="overview"><Layers3 className="h-4 w-4" /> Overview</TabsTrigger>
-          <TabsTrigger value="users"><Users className="h-4 w-4" /> Users</TabsTrigger>
+          {isAdmin && (
+            <TabsTrigger value="overview"><Layers3 className="h-4 w-4" /> Overview</TabsTrigger>
+          )}
+          {isAdmin && (
+            <TabsTrigger value="users"><Users className="h-4 w-4" /> Users</TabsTrigger>
+          )}
         </TabsList>
         <TabsContent value="content">
           <AdminForms onDone={refresh} />
         </TabsContent>
-        <TabsContent value="overview">
-          <ContentOverview />
-        </TabsContent>
-        <TabsContent value="users">
-          <AdminUsersTable />
-        </TabsContent>
+        {isAdmin && (
+          <TabsContent value="overview">
+            <ContentOverview />
+          </TabsContent>
+        )}
+        {isAdmin && (
+          <TabsContent value="users">
+            <AdminUsersTable />
+          </TabsContent>
+        )}
       </Tabs>
     </motion.div>
   );
