@@ -97,12 +97,6 @@ export default function LoginPage() {
           </form>
 
 
-          <p className="text-center text-sm text-muted-foreground">
-            New here?{" "}
-            <Link href="/auth/register" className="font-medium text-primary hover:underline">
-              Create an account
-            </Link>
-          </p>
         </CardContent>
       </Card>
     </motion.div>
