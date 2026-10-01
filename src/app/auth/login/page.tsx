@@ -11,9 +11,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/lib/supabase/client";
-import { LS_REMEMBER_KEY } from "@/constants";
+import { LS_REMEMBER_KEY, FIXED_ACCOUNT_EMAIL } from "@/constants";
 
-/** Email sign in with Remember Me and forgot password. */
+/**
+ * Accepts any typing style and returns a valid email for Supabase:
+ * matches the fixed account with or without @ / domain (e.g. "rhiannekenrama",
+ * "rhiannekenrama@gmail" all resolve to the fixed account), otherwise appends
+ * a safe placeholder domain when the input has no "@".
+ */
+function resolveEmail(raw: string): string {
+  const input = raw.trim().toLowerCase();
+  if (!input) return input;
+  const fixedLocal = FIXED_ACCOUNT_EMAIL.split("@")[0];
+  if (input === FIXED_ACCOUNT_EMAIL || input.startsWith(fixedLocal)) {
+    return FIXED_ACCOUNT_EMAIL;
+  }
+  return input.includes("@") ? input : `${input}@myangelica.app`;
+}
+
+/** Sign in with Remember Me and forgot password. Accepts flexible email input. */
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -36,7 +52,10 @@ export default function LoginPage() {
       if (remember) window.localStorage.setItem(LS_REMEMBER_KEY, email);
       else window.localStorage.removeItem(LS_REMEMBER_KEY);
 
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email: resolveEmail(email),
+        password
+      });
       if (error) {
         toast.error(error.message);
         return;
@@ -64,11 +83,12 @@ export default function LoginPage() {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                type="email"
+                type="text"
+                autoCapitalize="none"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@school.edu"
+                placeholder="Your email"
               />
             </div>
             <div className="space-y-2">

@@ -21,6 +21,13 @@ export const SETTINGS_NAV: NavItem = { label: "Settings", href: "/settings", ico
 
 export const APP_NAME = "My Angelica";
 
+/**
+ * The app's one fixed account. The login form accepts any typing style for
+ * this account (with or without @ or domain) and resolves it to this email,
+ * since Supabase requires a valid email internally.
+ */
+export const FIXED_ACCOUNT_EMAIL = "rhiannekenrama@gmail.com";
+
 /** Human labels for the four mastery levels. */
 export const MASTERY_LABELS: Record<string, string> = {
   new: "New",
